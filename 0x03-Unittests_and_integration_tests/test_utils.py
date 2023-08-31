@@ -61,6 +61,11 @@ class TestAccessNestedMap(unittest.TestCase):
 
         self.assertEqual(str(context.exception), expected_msg)
 
+
+class TestGetJson(unittest.TestCase):
+    """
+    Test suite for the get_json function
+    """
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
@@ -77,6 +82,7 @@ class TestAccessNestedMap(unittest.TestCase):
             mock_get (Mock): the mocked requests.get object
         """
         self.assertTrue(isinstance(mock_get, Mock))
+
         mock_response = mock_get.return_value
         mock_response.json.return_value = test_payload
 
