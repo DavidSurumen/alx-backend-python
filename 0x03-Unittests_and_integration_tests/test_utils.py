@@ -42,7 +42,17 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map_exception(self, nested_map,
                                          path, expected_excep, expected_msg):
         """
-        doc--
+        Test whether the access_nested_map function raises the right
+        exceptions on bad input and the exception message matches.
+
+        Parameters:
+            nested_map (Mapping): the nested dictionary
+            path (Sequence): list of keys forming path to the desired value
+            expected_excep: the expected exception type to be raised
+            expected_msg: the expected exception message.
+
+        Returns:
+            None: this test does not return anything.
         """
         with self.assertRaises(expected_excep) as context:
             access_nested_map(nested_map, path)
