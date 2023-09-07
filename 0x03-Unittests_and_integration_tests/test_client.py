@@ -46,7 +46,8 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         doc
         """
-        with patch('client.GithubOrgClient.org', new_callable = PropertyMock) as mock_org:
+        with patch('client.GithubOrgClient.org', new_callable=PropertyMock)\
+                as mock_org:
             mock_org.return_value = test_payload
             self.assertTrue(isinstance(mock_org, Mock))
 
