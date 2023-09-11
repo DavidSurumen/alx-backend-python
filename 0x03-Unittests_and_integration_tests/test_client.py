@@ -17,6 +17,7 @@ from parameterized import (
 )
 import unittest
 from fixtures import TEST_PAYLOAD
+from requests import HTTPError
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -132,6 +133,20 @@ class TestIntegerationGithubOrgClient(unittest.TestCase):
 
         cls.get_patcher = patch("requests.get", side_effect=get_payload)
         cls.get_patcher.start()
+
+    def test_public_repos(self):
+        """
+        Test public_repos method against the fixtures
+        """
+        obj = GithubOrgClient('google')
+        public_repos = obj.public_repos()
+
+        self.assertEqual(public_repos, self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """
+        doc
+        """
 
     @classmethod
     def tearDownClass(cls):
