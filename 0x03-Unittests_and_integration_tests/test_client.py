@@ -86,3 +86,17 @@ class TestGithubOrgClient(unittest.TestCase):
                 ])
             mock_repo_url.assert_called_once()
         mock_get_json.assert_called_once()
+
+    @parameterized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False),
+    ])
+    def test_has_license(self, test_repo, test_license_key, test_output):
+        """
+        Test that has_license method returns boolean whether or not a
+        given repository has the passed license key.
+        """
+        obj = GithubOrgClient('test')
+        bool = obj.has_license(test_repo, test_license_key)
+
+        self.assertEqual(bool, test_output)
