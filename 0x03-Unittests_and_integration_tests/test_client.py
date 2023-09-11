@@ -40,7 +40,7 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with(org_url)
 
     @parameterized.expand([
-        ('this_org1', {'repos_url': {'payload': True}}),
+        ('this_org1', {'repos_url': "public-repo-url"}),
     ])
     def test_public_repos_url(self, this_org1, test_payload):
         """
@@ -53,5 +53,23 @@ class TestGithubOrgClient(unittest.TestCase):
 
             result = GithubOrgClient(this_org1)._public_repos_url
 
-        self.assertEqual(result, {'payload': True})
+        self.assertEqual(result, "public-repo-url")
         mock_org.assert_called_once_with()
+
+    @parameterized.expand([
+        ([{'name': 'repo 1'}], ['repo 1']),
+        ([{'name': 'repo 2'}], ['repo 2']),
+    ])
+    @patch('client.get_json')
+    def test_public_repos(self, test_payload, test_repo, mock_get_json):
+        mock_get_json.return_value = test_payload
+
+        with patch('client.GithubOrgClient._public_repos_url',
+                   new_callable=PropertyMock) as mock_repo_url:
+            mock_repo_url.return_value = "mock_url"
+            object = GithubOrgClient('test')
+            result = object.public_repos()
+
+        self.assertEqual(result, test_repo)
+        mock_repo_url.assert_called_once_with()
+        mock_get_json.assert_called_once_with("mock_url")
