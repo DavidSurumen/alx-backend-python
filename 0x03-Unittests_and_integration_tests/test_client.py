@@ -96,7 +96,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ({'license': {'key': "my_license"}}, "my_license", True),
         ({'license': {'key': "other_license"}}, "my_license", False),
     ])
-    def test_has_license(self, test_repo, test_license_key, test_output):
+    def test_has_lisense(self, test_repo, test_license_key, test_output):
         """
         Test that has_license method returns boolean whether or not a
         given repository has the passed license key.
