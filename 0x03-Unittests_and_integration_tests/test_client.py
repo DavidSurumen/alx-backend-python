@@ -96,15 +96,15 @@ class TestGithubOrgClient(unittest.TestCase):
         ({'license': {'key': "my_license"}}, "my_license", True),
         ({'license': {'key': "other_license"}}, "my_license", False),
     ])
-    def test_has_license(self, test_repo, test_license_key, test_output):
+    def test_has_license(self, test_repo, test_license_key, expected):
         """
         Test that has_license method returns boolean whether or not a
         given repository has the passed license key.
         """
-        obj = GithubOrgClient('test')
-        bool = obj.has_license(test_repo, test_license_key)
+        client = GithubOrgClient('google')
+        bool = client.has_license(test_repo, test_license_key)
 
-        self.assertEqual(bool, test_output)
+        self.assertEqual(bool, expected)
 
 
 @parameterized_class(
