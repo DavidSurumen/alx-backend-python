@@ -11,8 +11,12 @@ from unittest.mock import (
     Mock,
     PropertyMock,
 )
-from parameterized import parameterized
+from parameterized import (
+    parameterized,
+    parameterized_class,
+)
 import unittest
+from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -100,3 +104,38 @@ class TestGithubOrgClient(unittest.TestCase):
         bool = obj.has_license(test_repo, test_license_key)
 
         self.assertEqual(bool, test_output)
+
+
+@parameterized_class(
+    ('org_payload', 'repos_payload', 'expected_repos', 'apache2_repos'),
+    [(TEST_PAYLOAD[0][0], TEST_PAYLOAD[0][1],
+      TEST_PAYLOAD[0][2], TEST_PAYLOAD[0][3])]
+)
+class TestIntegerationGithubOrgClient(unittest.TestCase):
+    """
+    Integration tests for GithubOrgClient.public_repos method
+    """
+    @classmethod
+    def setUpClass(cls):
+        """
+        sets up class fixtures
+        """
+        route_payload = {
+                'https://api.github.com/orgs/google': cls.org_payload,
+                'https://api.github.com/orgs/google/repos': cls.repos_payload,
+        }
+
+        def get_payload(url):
+            if url in route_payload:
+                return Mock(**{'json.return_value': route_payload[url]})
+            return HTTPError
+
+        cls.get_patcher = patch("requests.get", side_effect=get_payload)
+        cls.get_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        removes the class fixtures
+        """
+        cls.get_patcher.stop()
