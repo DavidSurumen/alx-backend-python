@@ -145,8 +145,13 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_with_license(self):
         """
-        doc
+        Test the public_repos method with license, against the fixtures
         """
+        license = "apache-2.0"
+        obj = GithubOrgClient('google')
+        public_repos = obj.public_repos(license)
+
+        self.assertEqual(public_repos, self.apache2_repos)
 
     @classmethod
     def tearDownClass(cls):
