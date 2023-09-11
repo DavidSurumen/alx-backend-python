@@ -112,7 +112,7 @@ class TestGithubOrgClient(unittest.TestCase):
     [(TEST_PAYLOAD[0][0], TEST_PAYLOAD[0][1],
       TEST_PAYLOAD[0][2], TEST_PAYLOAD[0][3])]
 )
-class TestIntegerationGithubOrgClient(unittest.TestCase):
+class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
     Integration tests for GithubOrgClient.public_repos method
     """
